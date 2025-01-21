@@ -33,6 +33,8 @@ import androidx.compose.ui.text.style.TextAlign
 import com.app.networky.ui.theme.ElementBackground
 import com.app.networky.ui.theme.BackgroundDark
 import com.app.networky.ui.theme.MainText
+import coil.compose.AsyncImage
+import androidx.compose.ui.layout.ContentScale
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -78,18 +80,6 @@ fun ProfileCard(
                     horizontalArrangement = Arrangement.Start,
                     verticalAlignment = Alignment.CenterVertically
                 ) {
-                    // Фото профиля
-                    Box(
-                        modifier = Modifier
-                            .size(60.dp)
-                            .clip(CircleShape)
-                            .background(ElementBackground)
-                    ) {
-                        // Здесь будет AsyncImage для загрузки фото
-                    }
-
-                    Spacer(modifier = Modifier.width(16.dp))
-
                     Column {
                         Text(
                             text = profileData?.name ?: "",
@@ -101,6 +91,35 @@ fun ProfileCard(
                             style = MaterialTheme.typography.bodyMedium,
                             color = MainText
                         )
+                    }
+
+                    Spacer(modifier = Modifier.width(160.dp))
+
+                    // Фото профиля
+                    if (profileData?.photoUri != null) {
+                        AsyncImage(
+                            model = profileData!!.photoUri,
+                            contentDescription = "Profile photo",
+                            modifier = Modifier
+                                .size(60.dp)
+                                .clip(CircleShape),
+                            contentScale = ContentScale.Crop
+                        )
+                    } else {
+                        Box(
+                            modifier = Modifier
+                                .size(60.dp)
+                                .clip(CircleShape)
+                                .background(ElementBackground),
+                            contentAlignment = Alignment.Center
+                        ) {
+                            Icon(
+                                imageVector = Icons.Default.Person,
+                                contentDescription = "Profile photo placeholder",
+                                modifier = Modifier.size(30.dp),
+                                tint = Color.Gray
+                            )
+                        }
                     }
                 }
 

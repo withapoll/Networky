@@ -36,6 +36,13 @@ import android.os.Build
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.filled.Warning
+import androidx.compose.material3.OutlinedTextFieldDefaults
+import androidx.compose.material3.TextField
+import androidx.compose.material3.TextFieldDefaults
+import androidx.compose.runtime.internal.enableLiveLiterals
+import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import coil.compose.AsyncImage
@@ -43,6 +50,7 @@ import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.accompanist.permissions.isGranted
 import com.google.accompanist.permissions.rememberPermissionState
 import com.app.networky.ui.components.BigButton
+import com.app.networky.ui.theme.SecondaryElements
 
 @OptIn(ExperimentalPermissionsApi::class)
 @Composable
@@ -78,7 +86,6 @@ fun ProfileEditor(
             .padding(bottom = 32.dp),
         verticalArrangement = Arrangement.spacedBy(16.dp)
     ) {
-       //TODO - фиксануть синк выбранной фотки после заполнения карточки
         Box(
             modifier = Modifier
                 .size(100.dp)
@@ -110,15 +117,21 @@ fun ProfileEditor(
                 )
             }
         }
-//TODO - сделать поля кастомного стиля, крч избавиться от Material UI
         OutlinedTextField(
             value = name,
             onValueChange = { name = it },
             label = { Text("Как Вас зовут?") },
             modifier = Modifier
-                .fillMaxWidth()
-
-
+                .fillMaxWidth(),
+            shape = RoundedCornerShape(10.dp),
+            colors = OutlinedTextFieldDefaults.colors(
+                unfocusedContainerColor = ElementBackground,
+                focusedContainerColor = ElementBackground,
+                focusedBorderColor = ElementBackground,
+                unfocusedBorderColor = ElementBackground,
+                unfocusedLabelColor = Color.Gray,
+                focusedLabelColor = Color.Gray,
+            )
         )
 
         OutlinedTextField(
@@ -126,14 +139,32 @@ fun ProfileEditor(
             onValueChange = { description = it },
             label = { Text("Напиши пару слов о себе") },
             modifier = Modifier.fillMaxWidth(),
-            minLines = 3
+            shape = RoundedCornerShape(10.dp),
+            minLines = 3,
+            colors = OutlinedTextFieldDefaults.colors(
+                unfocusedContainerColor = ElementBackground,
+                focusedContainerColor = ElementBackground,
+                focusedBorderColor = ElementBackground,
+                unfocusedBorderColor = ElementBackground,
+                unfocusedLabelColor = Color.Gray,
+                focusedLabelColor = Color.Gray,
+            )
         )
 
         OutlinedTextField(
             value = link,
             onValueChange = { link = it },
             label = { Text("Вставь сюда ссылку на свой сайт или CV") },
-            modifier = Modifier.fillMaxWidth()
+            modifier = Modifier.fillMaxWidth(),
+            shape = RoundedCornerShape(10.dp),
+            colors = OutlinedTextFieldDefaults.colors(
+                unfocusedContainerColor = ElementBackground,
+                focusedContainerColor = ElementBackground,
+                focusedBorderColor = ElementBackground,
+                unfocusedBorderColor = ElementBackground,
+                unfocusedLabelColor = Color.Gray,
+                focusedLabelColor = Color.Gray,
+            )
         )
 
         if (name.isNotBlank() && description.isNotBlank() && link.isNotBlank()) {
@@ -143,20 +174,21 @@ fun ProfileEditor(
                     .fillMaxWidth()
             ) {
                 Icon(
-                    imageVector = Icons.Default.Info,
+                    imageVector = Icons.Default.Warning,
                     contentDescription = "Info",
-                    tint = Color.Gray
+                    tint = Color.Red
                 )
                 Spacer(modifier = Modifier.width(8.dp))
                 Text(
                     text = "Приложение сгенерит QR код для вашей ссылки, которым Вы можете делиться с людьми",
                     style = MaterialTheme.typography.bodyMedium,
-                    color = Color.Gray,
+                    color = Color.Red,
                     textAlign = TextAlign.Center
                 )
             }
         }
-//TODO - убрать возможность создавать карточку пустой, нашел этот баг
+        //проверка формы
+        val isFormValid = name.isNotBlank() && description.isNotBlank() && link.isNotBlank()
         BigButton(
             text = "Сохранить",
             onClick = {
