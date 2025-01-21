@@ -45,7 +45,7 @@ fun WelcomeScreen(
                     contentAlignment = Alignment.Center
                 ) {
                     Text(
-                        text = "Networky",
+                        text = "Netwrk",
                         style = MaterialTheme.typography.displayLarge,
                         color = Color.White,
                         textAlign = TextAlign.Center

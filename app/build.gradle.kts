@@ -53,6 +53,10 @@ dependencies {
 
     implementation(libs.androidx.navigation.compose)
     implementation(libs.androidx.core.ktx)
+    implementation(libs.coil.compose)
+    implementation (libs.androidx.lifecycle.viewmodel.compose)
+    implementation (libs.lifecycle.runtime.compose)
+    implementation (libs.google.accompanist.permissions)
     implementation(libs.androidx.ui.text.google.fonts)
     implementation(libs.exoplayer.core)
     implementation(libs.google.exoplayer.ui)
